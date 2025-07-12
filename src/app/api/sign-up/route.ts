@@ -2,8 +2,6 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
-import { success } from "zod/v4";
-import { message } from "@/schemas/messageSchema";
 
 export async function POST(request : Request){
     await dbConnect()
@@ -64,6 +62,8 @@ export async function POST(request : Request){
         }
 
         const emailResponse = await sendVerificationEmail(email, username, verifyCode);
+
+        console.log("Email response",emailResponse)
 
         if(!emailResponse.success){
             return Response.json({
