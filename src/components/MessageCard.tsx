@@ -2,9 +2,7 @@
 import React from 'react'
 import {
   Card,
-  CardAction,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -24,7 +22,7 @@ import { Button } from './ui/button'
 import { X } from 'lucide-react'
 import { Message } from '@/model/User'
 import { toast } from 'sonner'
-import axios,{AxiosError} from 'axios'
+import axios from 'axios'
 import { ApiResponse } from '@/types/ApiResponse'
 
 type MessageCardProps = {

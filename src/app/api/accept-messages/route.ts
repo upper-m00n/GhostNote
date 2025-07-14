@@ -44,7 +44,7 @@ export async function POST(request :  Request){
        
         
     } catch (err) {
-        console.log("failed to update user status to accept messages")
+        console.log("failed to update user status to accept messages",err)
         return Response.json({
             success:false,
             message:"failed to update user status to accept messages"
@@ -53,7 +53,7 @@ export async function POST(request :  Request){
 
 }
 
-export async function GET(request:Request){
+export async function GET(){
     await dbConnect();
 
     const session=await getServerSession(authOptions);

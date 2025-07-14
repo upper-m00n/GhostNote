@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import * as z from 'zod'
 
-const page =()=>{
+const Page =()=>{
     const router = useRouter();
     const params= useParams<{username:string}>();
     const form = useForm<z.infer<typeof verifySchema>>({
@@ -32,7 +32,7 @@ const page =()=>{
             
             const axiosError = err as AxiosError<ApiResponse>;
 
-            let errorMessage= axiosError.response?.data.message;
+            const errorMessage= axiosError.response?.data.message;
             toast(errorMessage);
 
         }
@@ -70,4 +70,4 @@ const page =()=>{
 }
 
 
-export default page;
+export default Page;

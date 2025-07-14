@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import { log } from "node:console";
-
 type ConnectionOnject = {
     isConnected?: number
 }
