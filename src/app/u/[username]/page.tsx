@@ -83,7 +83,11 @@ function Page() {
     <div className='min-h-screen flex flex-col items-center justify-center px-4 py-10'>
       <div className='w-full max-w-2xl md:max-w-3xl lg:max-w-4xl'>
         <h1 className='text-3xl font-bold mb-5'>Get your message board</h1>
-        <Button className='mb-5'>Create Your Account</Button>
+        <a href="https://ghost-note-theta.vercel.app/sign-up"
+              target="_blank"
+              rel="noopener noreferrer"
+            ><Button className='mb-5' >Create Your Account</Button></a>
+        
         <Separator className='mb-5'/>
         <h1 className='text-3xl font-bold mb-5'>Public Profile</h1>
 
