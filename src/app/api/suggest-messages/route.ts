@@ -1,35 +1,40 @@
+import { NextResponse } from 'next/server';
 
-import { NextRequest, NextResponse } from 'next/server';
-
-const HF_API_URL = 'https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta';
-
-export async function POST(req: NextRequest) {
-  const prompt =
-    "Create a list of three open-ended and engaging questions formatted as a single string. Each question should be separated by '||'. These questions are for an anonymous social messaging platform, like Qooh.me, and should be suitable for a diverse audience. Avoid personal or sensitive topics, focusing instead on universal themes that encourage friendly interaction. For example, your output should be structured like this: 'What’s a hobby you’ve recently started?||If you could have dinner with any historical figure, who would it be?||What’s a simple thing that makes you happy?'. Ensure the questions are intriguing, foster curiosity, and contribute to a positive and welcoming conversational environment.";
-
+export async function POST() {
+  const MODEL = "@cf/meta/llama-2-7b-chat-int8"; // Free tier model
+  
   try {
-    const response = await fetch(HF_API_URL, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${process.env.HUGGINGFACE_API_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        inputs: prompt,
-        parameters: {
-          max_new_tokens: 100,
-          return_full_text: false,
+    const response = await fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/ai/run/${MODEL}`,
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,
+          "Content-Type": "application/json"
         },
-      }),
-    });
+        body: JSON.stringify({
+          messages: [{
+            role: "user",
+            content: "Create a list of three open-ended and engaging questions formatted as a single string. Each question should be separated by '||'. These questions are for an anonymous social messaging platform, like Qooh.me, and should be suitable for a diverse audience. Avoid personal or sensitive topics, focusing instead on universal themes that encourage friendly interaction. For example, your output should be structured like this: 'What’s a hobby you’ve recently started?||If you could have dinner with any historical figure, who would it be?||What’s a simple thing that makes you happy?'. Ensure the questions are intriguing, foster curiosity, and contribute to a positive and welcoming conversational environment.Provide only the questions, do not include the inrtoductory lines."
 
-    const data = await response.json();
+          }],
+          max_tokens: 100
+        })
+      }
+    );
 
-    const output = data?.[0]?.generated_text || 'No output generated';
+    if (!response.ok) throw new Error(await response.text());
+
+    const { result } = await response.json();
+    const output = result.response || "Favorite book?||Best trip?||Guilty pleasure food?";
 
     return NextResponse.json({ output });
+
   } catch (error) {
-    console.error('Error generating questions:', error);
-    return NextResponse.json({ error: 'Failed to generate questions' }, { status: 500 });
+    console.error('AI Error:', error);
+    return NextResponse.json(
+      { output: "Current hobby?||Bucket list place?||Favorite snack?" },
+      { status: 200 }
+    );
   }
 }
