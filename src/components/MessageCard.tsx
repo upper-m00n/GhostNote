@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-
+import dayjs from 'dayjs'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -46,27 +46,30 @@ function MessageCard({message, onMessageDelete}:MessageCardProps) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>{message.content}</CardTitle>
-                 <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <Button variant="destructive"><X className='w-5 h-5'/></Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete your
-                            account and remove your data from our servers.
-                        </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDeleteConfirm}>Continue</AlertDialogAction>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
-                <CardDescription>Card Description</CardDescription>
-                <CardAction>Card Action</CardAction>
+                <div className='flex justify-between items-center'>
+                    <CardTitle>{message.content}</CardTitle>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="destructive"><X className='w-5 h-5'/></Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete your
+                                account and remove your data from our servers.
+                            </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleDeleteConfirm}>Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </div>
+                <div className='text-sm'>
+                    {dayjs(message.createdAt).format('MMM D, YYYY h:mm A')}
+                </div>
             </CardHeader>
             <CardContent>
             </CardContent>
