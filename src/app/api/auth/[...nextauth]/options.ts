@@ -50,8 +50,14 @@ export const authOptions: NextAuthOptions = {
           } else {
             throw new Error('Incorrect password');
           }
-        } catch (err: any) {
-          throw new Error(err.message);
+        } catch (err) {
+          if(err instanceof Error){
+            throw new Error(err.message);
+          }
+          else {
+            console.error('Unknown error', err);
+            throw new Error('Something went wrong');
+          }
         }
       },
     }),
