@@ -28,6 +28,10 @@ export interface User extends Document{
     messages: Message[]
 }
 
+export interface UserWithStringId extends Omit<User, '_id'> {
+  _id: string;
+}
+
 const UserSchema: Schema<User> = new Schema({
     username:{
         type: String,
