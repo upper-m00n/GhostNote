@@ -5,7 +5,7 @@ import { authOptions } from "../../auth/[...nextauth]/options";
 
 
 export async function DELETE(request:Request){
-    const { searchParams, pathname } = new URL(request.url);
+    const {pathname } = new URL(request.url);
   const segments = pathname.split("/");
   const messageId = segments[segments.length - 1];
     await dbConnect();
