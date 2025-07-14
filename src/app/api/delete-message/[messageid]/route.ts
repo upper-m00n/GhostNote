@@ -4,8 +4,10 @@ import UserModel from "@/model/User";
 import { authOptions } from "../../auth/[...nextauth]/options";
 
 
-export async function DELETE(request:Request, {params}: {params : {messageid:string}}){
-    const messageId = params.messageid
+export async function DELETE(request:Request){
+    const { searchParams, pathname } = new URL(request.url);
+  const segments = pathname.split("/");
+  const messageId = segments[segments.length - 1];
     await dbConnect();
 
     const session = await getServerSession(authOptions);
